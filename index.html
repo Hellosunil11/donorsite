@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Donation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Blood Donation Platform</h1>
+
+  <h2>Register as a Blood Donor</h2>
+  <form id="donorForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="contact">Contact:</label>
+    <input type="text" id="contact" name="contact" required>
+
+    <label for="bloodGroup">Blood Group:</label>
+    <select id="bloodGroup" name="bloodGroup">
+      <option value="A+">A+</option>
+      <option value="B+">B+</option>
+      <option value="O+">O+</option>
+      <option value="AB+">AB+</option>
+      <option value="A-">A-</option>
+      <option value="B-">B-</option>
+      <option value="O-">O-</option>
+      <option value="AB-">AB-</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <h2>Post Blood Requirement</h2>
+  <form id="requirementForm">
+    <label for="bloodType">Required Blood Group:</label>
+    <select id="bloodType" name="bloodType">
+      <option value="A+">A+</option>
+      <option value="B+">B+</option>
+      <option value="O+">O+</option>
+      <option value="AB+">AB+</option>
+      <option value="A-">A-</option>
+      <option value="B-">B-</option>
+      <option value="O-">O-</option>
+      <option value="AB-">AB-</option>
+    </select>
+
+    <label for="quantity">Required Quantity (in units):</label>
+    <input type="number" id="quantity" name="quantity" required>
+
+    <button type="submit">Post Requirement</button>
+  </form>
+
+  <script>
+    // Handle Donor Registration
+    document.getElementById('donorForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const donorData = {
+        name: document.getElementById('name').value,
+        contact: document.getElementById('contact').value,
+        bloodGroup: document.getElementById('bloodGroup').value
+      };
+
+      const response = await fetch('/registerDonor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(donorData)
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
+
+    // Handle Blood Requirement Posting
+    document.getElementById('requirementForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const requirementData = {
+        bloodType: document.getElementById('bloodType').value,
+        quantity: document.getElementById('quantity').value
+      };
+
+      const response = await fetch('/postRequirement', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requirementData)
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
+  </script>
+
+</body>
+</html>
